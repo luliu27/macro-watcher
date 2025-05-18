@@ -15,12 +15,17 @@ class FredClient:
         self.api_key = api_key
         self.fred = Fred(api_key=self.api_key)
 
-    def get_series_data(self, series_id, start_date: Optional[str] = None) -> pd.DataFrame:
+    def get_series_data(self, series_id, start_date: Optional[str] = None, end_date: Optional[str] = None) -> pd.DataFrame:
         """
         Fetch the specified FRED series and return a pandas DataFrame.
         """
-        series = self.fred.get_series(series_id, start_date=start_date)
-        return series
+        try :
+            series = self.fred.get_series(series_id, observation_start=start_date, observation_end=end_date)
+            if series.empty:
+                raise ValueError(f"No data found for series ID: {series_id}")
+            return series
+        except Exception as e:
+            raise RuntimeError(f"Error fetching data for series ID {series_id}: {e}")
 
 if __name__ == "__main__":
     # Example usage: Fetch and display the M2 money stock data (M2SL)
