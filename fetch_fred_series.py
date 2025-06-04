@@ -15,7 +15,7 @@ class FredClient:
         self.api_key = api_key
         self.fred = Fred(api_key=self.api_key)
 
-    def get_series_data(self, series_id, start_date: Optional[str] = None, end_date: Optional[str] = None) -> pd.DataFrame:
+    def get_series_data(self, series_id, start_date: Optional[str] = None, end_date: Optional[str] = None) -> pd.Series:
         """
         Fetch the specified FRED series and return a pandas DataFrame.
         """
